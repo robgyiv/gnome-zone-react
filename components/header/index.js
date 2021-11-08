@@ -5,7 +5,7 @@ export default function Header() {
     <Grid height="10vh" alignItems="center" justifyContent="center">
       <Box p={4}>
         <Heading>The Gnome Zone</Heading>
-        <Text>Let's find the best gnomes and put them on the blockchain</Text>
+        <Text>Find the best gnomes and put them on the blockchain</Text>
       </Box>
     </Grid>
   );
