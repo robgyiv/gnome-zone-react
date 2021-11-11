@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Box, Grid, Input, Stack } from '@chakra-ui/react';
+import { Button, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 
 export default function Submit({
@@ -87,8 +87,12 @@ export default function Submit({
   };
 
   return (
-    <Grid justifyItems={'center'}>
-      <Box width={'50vw'}>{showButton()}</Box>
-    </Grid>
+    <Container maxW="container.xl">
+      <GridItem rowStart={2} rowEnd={2}>
+        <Box id="fun" maxW={'100%'}>
+          {showButton()}
+        </Box>
+      </GridItem>
+    </Container>
   );
 }

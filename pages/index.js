@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
-import { useToast } from '@chakra-ui/react';
-
-import { Grid } from '@chakra-ui/react';
+import { Grid, useToast } from '@chakra-ui/react';
 
 import Header from '../components/header';
 import Submit from '../components/submit';
@@ -143,7 +140,7 @@ export default function Home() {
   };
 
   return (
-    <Grid minHeight={'100vh'} templateRows={'10vh 10vh 1fr'}>
+    <>
       <Head>
         <title>The Gnome Zone</title>
         <meta
@@ -152,21 +149,27 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <Submit
-        isConnected={!!walletAddress}
-        createGifAccount={createGifAccount}
-        getProvider={getProvider}
-        createProgram={createProgram}
-        baseAccount={baseAccount}
-        getGifList={getGifList}
-      />
+      <Grid
+        minHeight={'100vh'}
+        templateRows={'10vh 10vh 1fr 15vh'}
+        templateColumns={'1fr'}
+        width={'100%'}
+        gridAutoRows
+      >
+        <Header />
+        <Submit
+          isConnected={!!walletAddress}
+          createGifAccount={createGifAccount}
+          getProvider={getProvider}
+          createProgram={createProgram}
+          baseAccount={baseAccount}
+          getGifList={getGifList}
+        />
 
-      <main>
         <Gallery gifList={gifList} />
-      </main>
 
-      <Footer />
-    </Grid>
+        <Footer />
+      </Grid>
+    </>
   );
 }

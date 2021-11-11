@@ -1,12 +1,12 @@
-import { Box, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, Grid, Container, GridItem, Heading, Text } from '@chakra-ui/react';
 
 export default function Header() {
   return (
-    <Grid height="10vh" alignItems="center" justifyContent="center">
-      <Box p={4}>
+    <Container maxW="container.xl">
+      <GridItem rowStart={1} rowEnd={1} id="asdjhkdasj" maxWidth={'100%'}>
         <Heading>The Gnome Zone</Heading>
         <Text>Find the best gnomes and put them on the blockchain</Text>
-      </Box>
-    </Grid>
+      </GridItem>
+    </Container>
   );
 }
