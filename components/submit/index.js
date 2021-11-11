@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Box, Grid, Input, Stack } from '@chakra-ui/react';
+import { Button, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 
 export default function Submit({
@@ -49,25 +49,32 @@ export default function Submit({
   const showButton = () => {
     if (gifList !== null) {
       return (
-        <Stack direction={'row'}>
-          <Input
-            placeholder={'Gnome GIF URL...'}
-            _focus={{
-              bg: 'whiteAlpha.300',
-            }}
-            onChange={onInputChange}
-            value={inputValue}
-          />
-          <Button
-            _hover={{
-              bg: 'green.600',
-            }}
-            aria-label="Subscribe"
-            onClick={() => sendGif()}
-          >
-            Submit
-          </Button>
-        </Stack>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendGif();
+          }}
+        >
+          <Stack direction={'row'}>
+            <Input
+              placeholder={'Gnome GIF URL...'}
+              _focus={{
+                bg: 'whiteAlpha.300',
+              }}
+              onChange={onInputChange}
+              value={inputValue}
+            />
+            <Button
+              _hover={{
+                bg: 'green.600',
+              }}
+              aria-label="Subscribe"
+              onClick={() => sendGif()}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </form>
       );
     } else {
       return (
@@ -87,8 +94,12 @@ export default function Submit({
   };
 
   return (
-    <Grid justifyItems={'center'}>
-      <Box width={'50vw'}>{showButton()}</Box>
-    </Grid>
+    <Container maxW="container.md">
+      <GridItem rowStart={2} rowEnd={2}>
+        <Box id="fun" maxW={'100%'}>
+          {showButton()}
+        </Box>
+      </GridItem>
+    </Container>
   );
 }
