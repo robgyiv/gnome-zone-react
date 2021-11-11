@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
-import { Grid, useToast } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 
 import Header from '../components/header';
 import Submit from '../components/submit';
@@ -106,8 +106,8 @@ export default function Home() {
     try {
       if (gifList.length > 0) {
         const provider = getProvider();
-        const program = getProgram();
-        await program.rpc.updateItem(gifIndex, {
+        const program = new Program(idl, programID, provider);
+        await program.rpc.upvoteItem(gifIndex, {
           accounts: {
             baseAccount: baseAccount.publicKey,
           },
@@ -115,7 +115,7 @@ export default function Home() {
         await getGifList();
       }
     } catch (e) {
-      console.log('Error upvoting gnome', gifIndex);
+      console.log('Error upvoting gnome', gifIndex, e);
     }
   };
 
@@ -166,7 +166,7 @@ export default function Home() {
           getGifList={getGifList}
         />
 
-        <Gallery gifList={gifList} />
+        <Gallery gifList={gifList} upvoteGif={upvoteGif} />
 
         <Footer />
       </Grid>

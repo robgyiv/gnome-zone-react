@@ -49,25 +49,32 @@ export default function Submit({
   const showButton = () => {
     if (gifList !== null) {
       return (
-        <Stack direction={'row'}>
-          <Input
-            placeholder={'Gnome GIF URL...'}
-            _focus={{
-              bg: 'whiteAlpha.300',
-            }}
-            onChange={onInputChange}
-            value={inputValue}
-          />
-          <Button
-            _hover={{
-              bg: 'green.600',
-            }}
-            aria-label="Subscribe"
-            onClick={() => sendGif()}
-          >
-            Submit
-          </Button>
-        </Stack>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendGif();
+          }}
+        >
+          <Stack direction={'row'}>
+            <Input
+              placeholder={'Gnome GIF URL...'}
+              _focus={{
+                bg: 'whiteAlpha.300',
+              }}
+              onChange={onInputChange}
+              value={inputValue}
+            />
+            <Button
+              _hover={{
+                bg: 'green.600',
+              }}
+              aria-label="Subscribe"
+              onClick={() => sendGif()}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </form>
       );
     } else {
       return (
@@ -87,7 +94,7 @@ export default function Submit({
   };
 
   return (
-    <Container maxW="container.xl">
+    <Container maxW="container.md">
       <GridItem rowStart={2} rowEnd={2}>
         <Box id="fun" maxW={'100%'}>
           {showButton()}
