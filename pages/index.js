@@ -28,9 +28,11 @@ export default function Home() {
   const [gifList, setGifList] = useState([]);
 
   useEffect(() => {
-    window.addEventListener('load', async (e) => {
+    const onLoad = async () => {
       await checkIfWalletIsConnected();
-    });
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
   }, []);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function Home() {
         if (solana.isPhantom) {
           console.log('Phantom wallet found!');
           const response = await solana.connect({ onlyIfTrusted: true });
+          // console.log('!!', { response });
           const publicKey = response.publicKey.toString();
           console.log('Connected with Public Key:', publicKey);
           setWalletAddress(publicKey);
@@ -85,23 +88,6 @@ export default function Home() {
     }
   };
 
-  const connectWallet = async () => {
-    const { solana } = window;
-
-    if (solana) {
-      const response = await solana.connect();
-      const publicKey = response.publicKey.toString();
-      console.log('Connected with Public Key:', publicKey);
-      setWalletAddress(publicKey);
-    }
-  };
-
-  const renderNotConnectedContainer = () => (
-    <button className="cta-button connect-wallet-button" onClick={connectWallet}>
-      Connect to Wallet
-    </button>
-  );
-
   const upvoteGif = async (gifIndex) => {
     try {
       if (gifList.length > 0) {
@@ -131,7 +117,6 @@ export default function Home() {
       const program = new Program(idl, programID, provider);
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
 
-      console.log('Got the account', account);
       setGifList(account.gifList);
     } catch (e) {
       console.log('Error in getGifs:', e);
@@ -164,6 +149,7 @@ export default function Home() {
           createProgram={createProgram}
           baseAccount={baseAccount}
           getGifList={getGifList}
+          gifList={gifList}
         />
 
         <Gallery gifList={gifList} upvoteGif={upvoteGif} />
