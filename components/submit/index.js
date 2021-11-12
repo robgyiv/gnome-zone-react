@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
-import { Program, Provider, web3 } from '@project-serum/anchor';
+import { Button, CircularProgress, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
 
 export default function Submit({
   gifList,
@@ -12,6 +11,7 @@ export default function Submit({
   getGifList,
 }) {
   const [inputValue, setInputValue] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onInputChange = (event) => {
     const { value } = event.target;
@@ -19,18 +19,12 @@ export default function Submit({
   };
 
   const sendGif = async () => {
-    if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
-    } else {
-      console.log('Empty input. Try again.');
-    }
     if (inputValue.length === 0) {
       console.log('No gif link given');
       return;
     }
-    console.log('Gif link:', inputValue);
     try {
-      const provider = getProvider();
+      setIsSubmitting(true);
       const program = createProgram();
 
       await program.rpc.addGif(inputValue, {
@@ -38,12 +32,14 @@ export default function Submit({
           baseAccount: baseAccount.publicKey,
         },
       });
+      setInputValue('');
       console.log('GIF sent to program successfully', inputValue);
 
       await getGifList();
     } catch (e) {
       console.log('Error sending GIF', e);
     }
+    setIsSubmitting(false);
   };
 
   const showButton = () => {
@@ -70,6 +66,7 @@ export default function Submit({
               }}
               aria-label="Subscribe"
               onClick={() => sendGif()}
+              rightIcon={isSubmitting && <CircularProgress isIndeterminate size="16px" />}
             >
               Submit
             </Button>
@@ -93,11 +90,27 @@ export default function Submit({
     }
   };
 
+  const showConnectButton = () => {
+    <Button id="foo" onClick={() => connectWallet()}>
+      Connect to Wallet
+    </Button>;
+  };
+
+  const connectWallet = async () => {
+    const { solana } = window;
+
+    if (solana) {
+      const response = await solana.connect();
+      const publicKey = response.publicKey.toString();
+      setWalletAddress(publicKey);
+    }
+  };
+
   return (
     <Container maxW="container.md">
       <GridItem rowStart={2} rowEnd={2}>
         <Box id="fun" maxW={'100%'}>
-          {showButton()}
+          {isConnected ? showButton() : showConnectButton()}
         </Box>
       </GridItem>
     </Container>
