@@ -6,8 +6,8 @@ export default function Gallery({ gifList, upvoteGif }) {
   return (
     <Container maxW="container.xl">
       <GridItem rowStart={3} rowEnd={3}>
-        <Box width={'70vw'}>
-          <Grid templateColumns={'repeat(4, 1fr)'} templateRows={'auto'} gridGap={'2rem'}>
+        <Box padding="8">
+          <Grid templateColumns={'repeat(3, 1fr)'} templateRows={'auto'} gridGap={'2rem'}>
             {gifList.length > 0 &&
               gifList.map((item, index) => (
                 <Item

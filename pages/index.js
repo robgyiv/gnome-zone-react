@@ -37,7 +37,6 @@ export default function Home() {
 
   useEffect(() => {
     if (walletAddress) {
-      console.log('Fetching GIF list...');
       getGifList();
     }
   }, [walletAddress]);
@@ -48,11 +47,8 @@ export default function Home() {
 
       if (solana) {
         if (solana.isPhantom) {
-          console.log('Phantom wallet found!');
           const response = await solana.connect({ onlyIfTrusted: true });
-          // console.log('!!', { response });
           const publicKey = response.publicKey.toString();
-          console.log('Connected with Public Key:', publicKey);
           setWalletAddress(publicKey);
         }
       } else {
@@ -81,11 +77,8 @@ export default function Home() {
         },
         signers: [baseAccount],
       });
-      console.log('Created a new BaseAccount w/ address:', baseAccount.publicKey.toString());
       await getGifList();
-    } catch (e) {
-      console.log('Error creating BaseAccount account:', e);
-    }
+    } catch (e) {}
   };
 
   const upvoteGif = async (gifIndex) => {
@@ -101,7 +94,7 @@ export default function Home() {
         await getGifList();
       }
     } catch (e) {
-      console.log('Error upvoting gnome', gifIndex, e);
+      return;
     }
   };
 
@@ -119,7 +112,6 @@ export default function Home() {
 
       setGifList(account.gifList);
     } catch (e) {
-      console.log('Error in getGifs:', e);
       setGifList(null);
     }
   };
@@ -150,6 +142,7 @@ export default function Home() {
           baseAccount={baseAccount}
           getGifList={getGifList}
           gifList={gifList}
+          setWalletAddress={setWalletAddress}
         />
 
         <Gallery gifList={gifList} upvoteGif={upvoteGif} />

@@ -9,6 +9,7 @@ export default function Submit({
   createProgram,
   baseAccount,
   getGifList,
+  setWalletAddress,
 }) {
   const [inputValue, setInputValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +21,6 @@ export default function Submit({
 
   const sendGif = async () => {
     if (inputValue.length === 0) {
-      console.log('No gif link given');
       return;
     }
     try {
@@ -33,12 +33,9 @@ export default function Submit({
         },
       });
       setInputValue('');
-      console.log('GIF sent to program successfully', inputValue);
 
       await getGifList();
-    } catch (e) {
-      console.log('Error sending GIF', e);
-    }
+    } catch (e) {}
     setIsSubmitting(false);
   };
 
@@ -83,7 +80,7 @@ export default function Submit({
             aria-label="Subscribe"
             onClick={() => createGifAccount()}
           >
-            Do One-Time Initialization For GIF Program Account
+            Do one-time initialization for GIF program account
           </Button>
         </Stack>
       );
@@ -91,9 +88,7 @@ export default function Submit({
   };
 
   const showConnectButton = () => {
-    <Button id="foo" onClick={() => connectWallet()}>
-      Connect to Wallet
-    </Button>;
+    return <Button onClick={() => connectWallet()}>Connect to Wallet</Button>;
   };
 
   const connectWallet = async () => {
