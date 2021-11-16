@@ -7,13 +7,15 @@ import {
   Stack,
   IconButton,
   ButtonGroup,
+  useColorMode,
 } from '@chakra-ui/react';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 
 export default function Footer() {
+  const { colorMode } = useColorMode();
   return (
     // Credit to https://chakra-templates.dev/page-sections/footer
-    <Container maxW="100%" bg="gray.50">
+    <Container maxW="100%" bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}>
       <Container maxW="container.xl">
         <GridItem rowStart={4} rowEnd={4}>
           <Box as="footer" role="contentinfo" mx="auto" py="12" padding="8">

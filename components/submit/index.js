@@ -1,11 +1,20 @@
 import { useState } from 'react';
-import { Button, CircularProgress, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Box,
+  GridItem,
+  Input,
+  Stack,
+  Grid,
+  useToast,
+} from '@chakra-ui/react';
 
 export default function Submit({
   gifList,
   isConnected,
   createGifAccount,
-  getProvider,
   createProgram,
   baseAccount,
   getGifList,
@@ -20,7 +29,7 @@ export default function Submit({
   };
 
   const sendGif = async () => {
-    if (inputValue.length === 0) {
+    if (inputValue.length === 0 || !inputValue.endsWith('.gif')) {
       return;
     }
     try {
@@ -50,7 +59,7 @@ export default function Submit({
         >
           <Stack direction={'row'}>
             <Input
-              placeholder={'Gnome GIF URL...'}
+              placeholder={'Submit your gnome GIF URL...'}
               _focus={{
                 bg: 'whiteAlpha.300',
               }}
@@ -58,10 +67,7 @@ export default function Submit({
               value={inputValue}
             />
             <Button
-              _hover={{
-                bg: 'green.600',
-              }}
-              aria-label="Subscribe"
+              aria-label="Submit"
               onClick={() => sendGif()}
               rightIcon={isSubmitting && <CircularProgress isIndeterminate size="16px" />}
             >
@@ -103,11 +109,11 @@ export default function Submit({
 
   return (
     <Container maxW="container.md">
-      <GridItem rowStart={2} rowEnd={2}>
-        <Box id="fun" maxW={'100%'}>
-          {isConnected ? showButton() : showConnectButton()}
-        </Box>
-      </GridItem>
+      <Grid>
+        <GridItem rowStart={2} rowEnd={2}>
+          <Box>{isConnected ? showButton() : showConnectButton()}</Box>
+        </GridItem>
+      </Grid>
     </Container>
   );
 }

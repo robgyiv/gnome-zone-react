@@ -1,4 +1,4 @@
-import { Box, Grid, Container, GridItem, Heading, Text } from '@chakra-ui/react';
+import { Container, GridItem, Heading, Text } from '@chakra-ui/react';
 
 export default function Header() {
   return (

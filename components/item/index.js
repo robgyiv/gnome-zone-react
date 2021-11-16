@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   Box,
-  Heading,
   Button,
   CircularProgress,
   Flex,

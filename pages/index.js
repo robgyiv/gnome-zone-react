@@ -128,7 +128,7 @@ export default function Home() {
       </Head>
       <Grid
         minHeight={'100vh'}
-        templateRows={'10vh 10vh 1fr 15vh'}
+        templateRows={'auto 10vh 1fr 15vh'}
         templateColumns={'1fr'}
         width={'100%'}
         gridAutoRows
