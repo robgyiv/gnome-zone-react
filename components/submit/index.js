@@ -1,14 +1,24 @@
 import { useState } from 'react';
-import { Button, CircularProgress, Container, Box, GridItem, Input, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Box,
+  GridItem,
+  Input,
+  Stack,
+  Grid,
+  useToast,
+} from '@chakra-ui/react';
 
 export default function Submit({
   gifList,
   isConnected,
   createGifAccount,
-  getProvider,
   createProgram,
   baseAccount,
   getGifList,
+  setWalletAddress,
 }) {
   const [inputValue, setInputValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +29,7 @@ export default function Submit({
   };
 
   const sendGif = async () => {
-    if (inputValue.length === 0) {
-      console.log('No gif link given');
+    if (inputValue.length === 0 || !inputValue.endsWith('.gif')) {
       return;
     }
     try {
@@ -33,12 +42,9 @@ export default function Submit({
         },
       });
       setInputValue('');
-      console.log('GIF sent to program successfully', inputValue);
 
       await getGifList();
-    } catch (e) {
-      console.log('Error sending GIF', e);
-    }
+    } catch (e) {}
     setIsSubmitting(false);
   };
 
@@ -53,7 +59,7 @@ export default function Submit({
         >
           <Stack direction={'row'}>
             <Input
-              placeholder={'Gnome GIF URL...'}
+              placeholder={'Submit your gnome GIF URL...'}
               _focus={{
                 bg: 'whiteAlpha.300',
               }}
@@ -61,10 +67,7 @@ export default function Submit({
               value={inputValue}
             />
             <Button
-              _hover={{
-                bg: 'green.600',
-              }}
-              aria-label="Subscribe"
+              aria-label="Submit"
               onClick={() => sendGif()}
               rightIcon={isSubmitting && <CircularProgress isIndeterminate size="16px" />}
             >
@@ -83,7 +86,7 @@ export default function Submit({
             aria-label="Subscribe"
             onClick={() => createGifAccount()}
           >
-            Do One-Time Initialization For GIF Program Account
+            Do one-time initialization for GIF program account
           </Button>
         </Stack>
       );
@@ -91,9 +94,7 @@ export default function Submit({
   };
 
   const showConnectButton = () => {
-    <Button id="foo" onClick={() => connectWallet()}>
-      Connect to Wallet
-    </Button>;
+    return <Button onClick={() => connectWallet()}>Connect to Wallet</Button>;
   };
 
   const connectWallet = async () => {
@@ -108,11 +109,11 @@ export default function Submit({
 
   return (
     <Container maxW="container.md">
-      <GridItem rowStart={2} rowEnd={2}>
-        <Box id="fun" maxW={'100%'}>
-          {isConnected ? showButton() : showConnectButton()}
-        </Box>
-      </GridItem>
+      <Grid>
+        <GridItem rowStart={2} rowEnd={2}>
+          <Box>{isConnected ? showButton() : showConnectButton()}</Box>
+        </GridItem>
+      </Grid>
     </Container>
   );
 }
