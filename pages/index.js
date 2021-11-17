@@ -10,9 +10,11 @@ import Footer from '../components/footer';
 import Gallery from '../components/gallery';
 
 import idl from '../files/idl.json';
-import kp from '../files/keypair.json';
 
 // SystemProgram is a reference to the Solana runtime!
+const keypairBase64 = process.env.NEXT_PUBLIC_SOLANA_KEYPAIR;
+let decoded = Buffer.from(keypairBase64, 'base64').toString('ascii');
+const kp = JSON.parse(decoded);
 const { SystemProgram, Keypair } = web3;
 const arr = Object.values(kp._keypair.secretKey);
 const secret = new Uint8Array(arr);
